@@ -95,12 +95,12 @@ packageProject(
 # --- setup tests ---
 enable_testing()
 
-add_executable(glob_tests test/rglob_test.cpp)
+add_executable(glob_tests test/rglob_test.cpp test/compile_pattern_test.cpp)
 set_property(TARGET glob_tests PROPERTY CXX_STANDARD 17)
 target_link_libraries(glob_tests PRIVATE gtest_main ${PROJECT_NAME})
 add_test(NAME glob_tests COMMAND glob_tests)
 
-add_executable(glob_tests_single test/rglob_test.cpp)
+add_executable(glob_tests_single test/rglob_test.cpp test/compile_pattern_test.cpp)
 set_property(TARGET glob_tests_single PROPERTY CXX_STANDARD 17)
 target_compile_definitions(glob_tests_single PRIVATE USE_SINGLE_HEADER=1)
 target_link_libraries(glob_tests_single PRIVATE gtest_main)
