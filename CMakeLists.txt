@@ -10,6 +10,7 @@ project(
 
 # ---- Options ----
 option(GLOB_USE_GHC_FILESYSTEM "Use ghc::filesystem instead of std::filesystem" OFF)
+option(GLOB_TESTS "Run glob gtests" ON)
 
 # ---- Include guards ----
 
@@ -93,16 +94,18 @@ packageProject(
 )
 
 # --- setup tests ---
-enable_testing()
+if (GLOB_TESTS)
+  enable_testing()
 
-add_executable(glob_tests test/rglob_test.cpp test/compile_pattern_test.cpp)
-set_property(TARGET glob_tests PROPERTY CXX_STANDARD 17)
-target_link_libraries(glob_tests PRIVATE gtest_main ${PROJECT_NAME})
-add_test(NAME glob_tests COMMAND glob_tests)
+  add_executable(glob_tests test/rglob_test.cpp test/compile_pattern_test.cpp)
+  set_property(TARGET glob_tests PROPERTY CXX_STANDARD 17)
+  target_link_libraries(glob_tests PRIVATE gtest_main ${PROJECT_NAME})
+  add_test(NAME glob_tests COMMAND glob_tests)
 
-add_executable(glob_tests_single test/rglob_test.cpp test/compile_pattern_test.cpp)
-set_property(TARGET glob_tests_single PROPERTY CXX_STANDARD 17)
-target_compile_definitions(glob_tests_single PRIVATE USE_SINGLE_HEADER=1)
-target_link_libraries(glob_tests_single PRIVATE gtest_main)
-target_include_directories(glob_tests_single PRIVATE single_include)
-add_test(NAME glob_tests_single COMMAND glob_tests_single)
+  add_executable(glob_tests_single test/rglob_test.cpp test/compile_pattern_test.cpp)
+  set_property(TARGET glob_tests_single PROPERTY CXX_STANDARD 17)
+  target_compile_definitions(glob_tests_single PRIVATE USE_SINGLE_HEADER=1)
+  target_link_libraries(glob_tests_single PRIVATE gtest_main)
+  target_include_directories(glob_tests_single PRIVATE single_include)
+  add_test(NAME glob_tests_single COMMAND glob_tests_single)
+endif ()
