@@ -159,10 +159,6 @@ std::string translate(std::string_view pattern) {
   return std::string{"(("} + result_string + std::string{R"()|[\r\n])$)"};
 }
 
-std::regex compile_pattern(std::string_view pattern) {
-  return std::regex(translate(pattern), std::regex::ECMAScript);
-}
-
 bool fnmatch(std::string&& name, const std::regex& pattern) {
   return std::regex_match(std::move(name), pattern);
 }
@@ -170,7 +166,7 @@ bool fnmatch(std::string&& name, const std::regex& pattern) {
 std::vector<fs::path> filter(const std::vector<fs::path> &names,
                              std::string_view pattern) {
   // std::cout << "Pattern: " << pattern << "\n";
-  const auto pattern_re = compile_pattern(pattern);
+  const auto pattern_re = compile_pattern_to_regex(pattern);
   std::vector<fs::path> result;
   std::copy_if(std::make_move_iterator(names.begin()), std::make_move_iterator(names.end()),
                std::back_inserter(result),
@@ -401,4 +397,7 @@ rglob(const std::initializer_list<std::string> &pathnames) {
   return rglob(std::vector<std::string>(pathnames));
 }
 
+std::regex compile_pattern_to_regex(std::string_view pattern) {
+  return std::regex(translate(pattern), std::regex::ECMAScript);
+}
 } // namespace glob
