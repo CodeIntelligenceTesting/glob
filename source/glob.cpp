@@ -91,14 +91,16 @@ std::string translate(std::string_view pattern) {
                 k = i + 1;
               }
 
-              while (true) {
-                k = pattern.find("-", k, j);
-                if (k == std::string_view::npos) {
+              while (k < j) {
+                auto pos = pattern.substr(k, j - k).find('-');
+                if (pos == std::string_view::npos) {
                   break;
+                } else {
+                    k += pos;
                 }
                 chunks.push_back(std::string(pattern.begin() + i, pattern.begin() + k));
                 i = k + 1;
-                k = k + 3;
+                k += 3;
               }
 
               chunks.push_back(std::string(pattern.begin() + i, pattern.begin() + j));
