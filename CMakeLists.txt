@@ -5,8 +5,11 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 project(
         Glob
         VERSION 1.0
-        LANGUAGES CXX
+        LANGUAGES C CXX
 )
+
+find_package(cifuzz NO_SYSTEM_ENVIRONMENT_PATH)
+enable_fuzz_testing()
 
 # ---- Options ----
 option(GLOB_USE_GHC_FILESYSTEM "Use ghc::filesystem instead of std::filesystem" OFF)
@@ -109,3 +112,5 @@ if (GLOB_TESTS)
   target_include_directories(glob_tests_single PRIVATE single_include)
   add_test(NAME glob_tests_single COMMAND glob_tests_single)
 endif ()
+
+add_subdirectory(cifuzz-spark)
