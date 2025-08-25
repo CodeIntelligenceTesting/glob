@@ -8,8 +8,10 @@ project(
         LANGUAGES C CXX
 )
 
-find_package(cifuzz NO_SYSTEM_ENVIRONMENT_PATH)
-enable_fuzz_testing()
+if (DEFINED GLOB_FUZZING)
+    find_package(cifuzz NO_SYSTEM_ENVIRONMENT_PATH)
+    enable_fuzz_testing()
+endif()
 
 # ---- Options ----
 option(GLOB_USE_GHC_FILESYSTEM "Use ghc::filesystem instead of std::filesystem" OFF)
@@ -113,4 +115,6 @@ if (GLOB_TESTS)
   add_test(NAME glob_tests_single COMMAND glob_tests_single)
 endif ()
 
-add_subdirectory(cifuzz-spark)
+if (DEFINED GLOB_FUZZING)
+    add_subdirectory(cifuzz-spark)
+endif ()
