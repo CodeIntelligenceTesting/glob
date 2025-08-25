@@ -26,10 +26,10 @@ engine: libfuzzer-clang
 ## whitespaces themselves, i.e. 'fuzz_test1 fuzz_test_2 ...'
 #list-fuzz-tests-command: echo my_fuzz_test
 
-## Command-line arguments to pass directly to the build system to use when
-## building fuzz tests.
-#build-system-args:
-# - -DBUILD_TESTS=ON
+# Command-line arguments to pass directly to the build system to use when
+# building fuzz tests.
+build-system-args:
+ - -DGLOB_FUZZING=ON
 
 ## Directories containing sample inputs used as seeds for running fuzz tests.
 ## For general information on seed corpora, see:
